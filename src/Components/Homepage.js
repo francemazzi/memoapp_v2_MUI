@@ -56,9 +56,8 @@ const Homepage = () => {
             align={"center"}
             paragraph
           >
-            Memoapp è la prima piattaforma che ti permette di ricordarti le cose
-            piccole, condividendo i tuoi memo con chi ti è accanto a casa o a
-            lavoro
+            Memoapp è la prima piattaforma che ti permette di ricordare le cose
+            piccole, condividendole con chi ti è accanto
           </Typography>
           <Grid container spacing={2} justifyContent="center">
             <Grid item>
