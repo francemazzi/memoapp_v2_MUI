@@ -28,13 +28,21 @@ const Memoarea = () => {
 
   // Aggiungere memo
   const [memoblocks, setMemoblocks] = useState([]);
+
+  // DATA
+  const today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const yyyy = today.getFullYear();
+  const dataDiOggi = `${dd}/${mm}/${yyyy}`;
+
   const addMemo = (memo) => {
-    console.log("Memo " + memo);
     let newMemoBlock = [
       ...memoblocks,
-      { id: memoblocks.length + 1, memo: memo },
+      { id: memoblocks.length + 1, memo: memo, data: dataDiOggi },
     ];
-    // console.log(handleClick(memo))
+
+    console.log(newMemoBlock);
     setMemoblocks(newMemoBlock);
   };
 
@@ -47,6 +55,19 @@ const Memoarea = () => {
       setMemoError(true);
       return;
     }
+  };
+
+  // ELIMINARE MEMO
+
+  // const handleRemove = (id, e) => {
+  //   let newMemoBlock = memoblocks.findIndex((obj) => obj.id === id);
+  //   setMemoblocks(memoblocks.splice(newMemoBlock, 0));
+  // };
+
+  // A volte da bug
+  const handleRemove = (id, e) => {
+    let newMemoBlock = memoblocks.filter((obj) => obj.id !== id);
+    setMemoblocks(newMemoBlock);
   };
 
   return (
@@ -106,6 +127,7 @@ const Memoarea = () => {
           {memoblocks.map((memoblock, index) => (
             <BasicCard
               memoblock={memoblock}
+              handleRemove={handleRemove}
               key={memoblock.id}
               id={memoblock.id}
               value={memoblock.id}

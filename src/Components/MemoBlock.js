@@ -1,6 +1,5 @@
 import * as React from "react";
 import { makeStyles } from "@mui/styles";
-import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -19,12 +18,13 @@ const useStyles = makeStyles({
   },
 });
 
-export default function BasicCard({ memoblock }) {
+export default function BasicCard({ memoblock, handleRemove }) {
   const classes = useStyles();
   return (
     <Card
       sx={{ minWidth: 275 }}
       style={{
+        marginTop: "15px",
         display: "flex",
         flexDirection: "row",
         alignItems: "flex-end",
@@ -33,7 +33,7 @@ export default function BasicCard({ memoblock }) {
     >
       <CardContent>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          GG/MM/AAAA
+          {memoblock.data}
         </Typography>
         <Typography variant="h5" component="div">
           {memoblock.memo}
@@ -43,6 +43,7 @@ export default function BasicCard({ memoblock }) {
         <Button
           className={classes.buttonDelete}
           style={{ textDecoration: "none", color: "#FFFF" }}
+          onClick={(e) => handleRemove(memoblock.id, e)}
         >
           Elimina
         </Button>
