@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import BasicCard from "./MemoBlock";
 
 const useStyles = makeStyles({
   bottomAdd: {
@@ -89,7 +90,6 @@ const Memoarea = () => {
             Aggiungi
           </Button>
         </Box>
-
         <Typography
           variant="h3"
           padding={"30px"}
@@ -101,6 +101,19 @@ const Memoarea = () => {
         >
           I tuoi promemoria:
         </Typography>
+
+        <div>
+          {memoblocks.map((memoblock, index) => (
+            <BasicCard
+              memoblock={memoblock}
+              key={memoblock.id}
+              id={memoblock.id}
+              value={memoblock.id}
+            >
+              {memoblock.memo}
+            </BasicCard>
+          ))}
+        </div>
       </Container>
     </>
   );
