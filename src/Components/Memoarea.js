@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { GetCookie, SetCookie } from "./hooks/Cookies";
 import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import Container from "@mui/material/Container";
@@ -15,13 +16,31 @@ const useStyles = makeStyles({
 
 const Memoarea = () => {
   const classes = useStyles();
-  const [memo, setMemo] = useState();
+  // Mettere cookie in memoblocks non qui in memo!
+  const [memo, setMemo] = useState(
+    GetCookie("memo") ? JSON.parse(GetCookie("memo")) : []
+  );
+  useEffect(() => {
+    SetCookie("Memo: ", JSON.stringify(memo));
+  }, [memo]);
   const [memoError, setMemoError] = useState(false);
+
+  // Aggiungere memo
+  const [memoblocks, setMemoblocks] = useState([]);
+  const addMemo = (memo) => {
+    console.log("Memo " + memo);
+    let newMemoBlock = [
+      ...memoblocks,
+      { id: memoblocks.length + 1, memo: memo },
+    ];
+    // console.log(handleClick(memo))
+    setMemoblocks(newMemoBlock);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    addMemo(memo);
     if (memo && memo !== "" && memo !== "\n") {
-      console.log(memo);
       setMemoError(false);
     } else {
       setMemoError(true);
@@ -52,7 +71,7 @@ const Memoarea = () => {
               onChange={(e) => setMemo(e.target.value)}
               id="standard-textarea"
               label="Inserisci il tuo memo"
-              placeholder="Placeholder"
+              placeholder=""
               multiline
               variant="standard"
               fullWidth
