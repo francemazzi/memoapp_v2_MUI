@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 const Memoarea = () => {
   const classes = useStyles();
-  // Mettere cookie in memoblocks non qui in memo!
+  // memo cookie solo per chi è registrato quindi si possono mantere salvati
   const [memo, setMemo] = useState(
     GetCookie("memo") ? JSON.parse(GetCookie("memo")) : []
   );

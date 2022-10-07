@@ -41,7 +41,17 @@ const Header = () => {
           to={"/"}
           style={{ textDecoration: "none", color: "#FFFF" }}
         >
-          Memoapp 📝
+          Memoapp
+        </Typography>
+        <Typography
+          variant="h6"
+          fontWeight={800}
+          fontSize={"30px"}
+          component={Link}
+          to={"/submit"}
+          style={{ textDecoration: "none", color: "#FFFF" }}
+        >
+          👤
         </Typography>
       </AppBar>
     </>
