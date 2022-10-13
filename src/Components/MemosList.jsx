@@ -19,6 +19,7 @@ const MemosList = () => {
   const mm = String(today.getMonth() + 1).padStart(2, "0");
   const yyyy = today.getFullYear();
   const dataDiOggi = `${dd}/${mm}/${yyyy}`;
+  //vedere se mantiene la data giusta del giorno dell'aggiunta oppure se va avanti con l'orario
 
   const renderMemos = memos.map((memo) => (
     <Card

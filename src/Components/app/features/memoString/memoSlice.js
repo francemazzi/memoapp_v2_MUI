@@ -1,16 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { nanoid } from "@reduxjs/toolkit";
 
-const initialState = [
-  { id: "1", memo: "Andare a passeggio con Bobby 🐶", data: "13/10/2022" },
-  { id: "2", memo: "Preparare i cioccolatini per Giada", data: "14/10/2022" },
-];
+const initialState = [{ id: "", memo: "", data: "" }];
 
 export const memoStringSlice = createSlice({
   name: "memos",
   initialState,
   reducers: {
-    memoAdd(state, action) {
-      state.push(action.payload);
+    memoAdd: {
+      reducer(state, action) {
+        state.push(action.payload);
+      },
+      prepare(memo, userId) {
+        return {
+          payload: {
+            id: nanoid(),
+            memo,
+            userId,
+          },
+        };
+      },
     },
   },
 });

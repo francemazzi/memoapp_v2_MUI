@@ -8,8 +8,8 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 //Redux
-import { nanoid } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import { selectAllUsers } from "./app/features/users/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { memoAdd } from "./app/features/memoString/memoSlice";
 
 //style
@@ -24,21 +24,26 @@ export const AddMemo = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [memo, setMemo] = useState("");
+  const [userId, setUserId] = useState("");
+
+  const users = useSelector(selectAllUsers);
 
   const onMemoChanged = (e) => setMemo(e.target.value);
+  const onUserChanged = (e) => setUserId(e.target.value);
 
   //on memo clicked
   const onSaveMemoClicked = () => {
     if (memo) {
-      dispatch(
-        memoAdd({
-          id: nanoid(),
-          memo,
-        })
-      );
+      dispatch(memoAdd(memo, userId));
       setMemo("");
     }
   };
+
+  const usersOptions = users.map((user) => (
+    <option key={user.id} value={user.id}>
+      {user.name}
+    </option>
+  ));
 
   return (
     <Container maxWidth="sm">
