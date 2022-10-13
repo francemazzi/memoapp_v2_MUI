@@ -4,6 +4,7 @@ import { makeStyles } from "@mui/styles";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
+import MemoUser from "./MemoUser";
 
 //REDUX
 import { useSelector } from "react-redux";
@@ -42,6 +43,7 @@ const MemosList = () => {
         <Typography variant="h5" component="div">
           {memo.memo}
         </Typography>
+        <MemoUser userId={memo.userId} />
       </CardContent>
     </Card>
   ));

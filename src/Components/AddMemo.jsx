@@ -1,4 +1,8 @@
 import React from "react";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
 import { useState } from "react";
 import { Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
@@ -39,10 +43,13 @@ export const AddMemo = () => {
     }
   };
 
+  //Controllo inserimento dati
+  const canSave = Boolean(memo) && Boolean(userId);
+
   const usersOptions = users.map((user) => (
-    <option key={user.id} value={user.id}>
-      {user.name}
-    </option>
+    <MenuItem key={user.id} value={user.id}>
+      {user.mail}
+    </MenuItem>
   ));
 
   return (
@@ -61,7 +68,16 @@ export const AddMemo = () => {
           flexWrap: "wrap",
         }}
       >
-        <form noValidate autoComplete="off">
+        <form
+          noValidate
+          autoComplete="off"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            flexWrap: "wrap",
+          }}
+        >
           <TextField
             onChange={onMemoChanged}
             id="standard-textarea"
@@ -71,7 +87,26 @@ export const AddMemo = () => {
             variant="standard"
             fullWidth
           />
+
+          <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <InputLabel id="demo-simple-select-standard-label">
+              Utente
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={userId}
+              onChange={onUserChanged}
+              label="Utente"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {usersOptions}
+            </Select>
+          </FormControl>
         </form>
+
         <Button
           className={classes.bottomAdd}
           style={{
@@ -79,6 +114,7 @@ export const AddMemo = () => {
           }}
           variant="contained"
           onClick={onSaveMemoClicked}
+          disabled={!canSave}
         >
           Aggiungi
         </Button>
