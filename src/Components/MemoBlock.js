@@ -6,6 +6,11 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
+// // redux;
+// import { useSelector, useDispatch } from "react-redux";
+// import { increment, decrement } from "./app/features/counter/memoCounterSlice";
+
+//style
 const useStyles = makeStyles({
   buttonDelete: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -19,7 +24,9 @@ const useStyles = makeStyles({
 });
 
 export default function BasicCard({ memoblock, handleRemove }) {
+  //hook style
   const classes = useStyles();
+
   return (
     <Card
       sx={{ minWidth: 275 }}

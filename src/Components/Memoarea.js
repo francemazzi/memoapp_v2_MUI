@@ -9,6 +9,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import BasicCard from "./MemoBlock";
 
+//redux
+import { useSelector, useDispatch } from "react-redux";
+import { increment, decrement } from "./app/features/counter/memoCounterSlice";
+
 const useStyles = makeStyles({
   bottomAdd: {
     background: "linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)",
@@ -17,6 +21,11 @@ const useStyles = makeStyles({
 
 const Memoarea = () => {
   const classes = useStyles();
+
+  //redux
+  const count = useSelector((state) => state.counter.count);
+  const dispatch = useDispatch();
+
   // memo cookie solo per chi è registrato quindi si possono mantere salvati
   const [memo, setMemo] = useState(
     GetCookie("memo") ? JSON.parse(GetCookie("memo")) : []
@@ -48,6 +57,8 @@ const Memoarea = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    //redux
+    dispatch(increment());
     addMemo(memo);
     if (memo && memo !== "" && memo !== "\n") {
       setMemoError(false);
@@ -68,6 +79,7 @@ const Memoarea = () => {
   const handleRemove = (id, e) => {
     let newMemoBlock = memoblocks.filter((obj) => obj.id !== id);
     setMemoblocks(newMemoBlock);
+    dispatch(decrement());
   };
 
   return (
@@ -120,7 +132,7 @@ const Memoarea = () => {
           align={"center"}
           gutterBottom
         >
-          I tuoi promemoria:
+          Hai {count} promemoria
         </Typography>
 
         <div>

@@ -16,7 +16,7 @@ const UserArea = ({ Logout, user }) => {
       <Memoarea></Memoarea>
       <Button
         style={{
-          marginTop: "50%",
+          marginTop: "60vh",
         }}
         onClick={Logout}
       >
