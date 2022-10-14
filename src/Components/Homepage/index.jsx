@@ -36,7 +36,7 @@ const Homepage = () => {
                 className={classes.buttonAdd}
                 component={Link}
                 to={"/memoarea"}
-                style={{ textDecoration: "none", color: "#FFFF" }}
+                // style={{ textDecoration: "none", color: "#FFFF" }}
               >
                 Carica memo
               </Button>
