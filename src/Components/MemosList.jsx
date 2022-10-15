@@ -1,56 +1,48 @@
 //MUI materials import
-import * as React from "react";
-import { makeStyles } from "@mui/styles";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
-import MemoUser from "./MemoUser";
-//Data
-import { TimeAgo } from "./TimeAgo";
-//reazioni
-import ReactionButtons from "./ReactionButtons";
-import ModifyButton from "./ReactionRemove";
+import { useEffect } from "react";
+import MemoExtraction from "./MemoExtraction";
+
+// //Data --> inserito in memoExtractor
+// import { TimeAgo } from "./TimeAgo";
+// //reazioni --> inserito in memo extractor
+// import ReactionButtons from "./ReactionButtons";
+// import ModifyButton from "./ReactionRemove";
 
 //REDUX
 import { useSelector, useDispatch } from "react-redux";
-import { selectAllMemos } from "./app/features/memoString/memoSlice";
+import {
+  selectAllMemos,
+  getMemoStatus,
+  getmemoError,
+  fetchMemo,
+} from "./app/features/memoString/memoSlice";
 
 const MemosList = () => {
   //Redux render posts
-  // const memos = useSelector(selectAllMemos);
+  const dispatch = useDispatch();
   const memos = useSelector(selectAllMemos);
+  const memosStatus = useSelector(getMemoStatus);
+  const memoError = useSelector(getmemoError);
 
-  //ordina array in base alla data di creazione
-  const orderMemos = memos.slice().sort((a, b) => b.date.localeCompare(a.date));
+  useEffect(() => {
+    if (memosStatus === "idle") {
+      dispatch(fetchMemo());
+    }
+  }, [memosStatus, dispatch]);
 
-  const renderMemos = orderMemos.map((memo) => (
-    <Card
-      key={memo.id}
-      sx={{ minWidth: 275 }}
-      style={{
-        marginTop: "1rem",
-        marginBottom: "1rem",
-        marginLeft: "0.9rem",
-        marginRight: "0.9rem",
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "flex-end",
-        justifyContent: "space-between",
-      }}
-    >
-      <CardContent>
-        <TimeAgo timestamp={memo.date} />
-        <Typography variant="h5" component="div">
-          {memo.memo}
-        </Typography>
-        <MemoUser userId={memo.userId} />
-      </CardContent>
-      <ReactionButtons memo={memo} />
-      <ModifyButton memo={memo} />
-    </Card>
-  ));
+  let content;
+  if (memosStatus === "loading") {
+    content = <p>'LOADING'</p>;
+  } else if (memosStatus === "succeeded") {
+    const orderMemos = memos
+      .slice()
+      .sort((a, b) => b.date.localeCompare(a.date));
+    content = orderMemos.map((memo) => <MemoExtraction memo={memo} />);
+  } else if (memosStatus === "failed") {
+    content = <p>{memoError}</p>;
+  }
 
-  return <>{renderMemos}</>;
+  return <>{content}</>;
 };
 
 export default MemosList;

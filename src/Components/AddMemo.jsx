@@ -15,7 +15,8 @@ import Button from "@mui/material/Button";
 import { selectAllUsers } from "./app/features/users/userSlice";
 import { increment } from "./app/features/counter/counterSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { memoAdd } from "./app/features/memoString/memoSlice";
+//memoAdd
+import { addNewMemo } from "./app/features/memoString/memoSlice";
 
 //style
 const useStyles = makeStyles({
@@ -30,6 +31,7 @@ export const AddMemo = () => {
   const dispatch = useDispatch();
   const [memo, setMemo] = useState("");
   const [userId, setUserId] = useState("");
+  const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
   const users = useSelector(selectAllUsers);
   const countIncrement = useSelector((state) => state.counter.count);
@@ -37,21 +39,28 @@ export const AddMemo = () => {
   const onMemoChanged = (e) => setMemo(e.target.value);
   const onUserChanged = (e) => setUserId(e.target.value);
 
+  //Controllo inserimento dati
+  const canSave = [memo, userId].every(Boolean) && addRequestStatus === "idle";
+
   //on memo clicked
   const onSaveMemoClicked = () => {
-    if (memo) {
-      dispatch(memoAdd(memo, userId));
-      setMemo("");
-      dispatch(increment());
+    if (canSave) {
+      try {
+        setAddRequestStatus("pending");
+        dispatch(addNewMemo({ memo, userId })).unwrap();
+        setMemo("");
+        setUserId("");
+      } catch (err) {
+        console.log("Error in upload", err);
+      } finally {
+        setAddRequestStatus("idle");
+      }
     }
   };
 
-  //Controllo inserimento dati
-  const canSave = Boolean(memo) && Boolean(userId);
-
   const usersOptions = users.map((user) => (
     <MenuItem key={user.id} value={user.id}>
-      {user.mail}
+      {user.email}
     </MenuItem>
   ));
 

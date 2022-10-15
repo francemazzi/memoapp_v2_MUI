@@ -9,7 +9,7 @@ const MemoUser = ({ userId }) => {
 
   return (
     <div>
-      <span>{user ? `Per ➡️ ${user.mail}` : "Per tutti"}</span>
+      <span>{user ? `Per ➡️ ${user.email}` : "Per tutti"}</span>
     </div>
   );
 };
