@@ -13,6 +13,7 @@ import Button from "@mui/material/Button";
 
 //Redux
 import { selectAllUsers } from "./app/features/users/userSlice";
+import { increment } from "./app/features/counter/counterSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { memoAdd } from "./app/features/memoString/memoSlice";
 
@@ -31,6 +32,7 @@ export const AddMemo = () => {
   const [userId, setUserId] = useState("");
 
   const users = useSelector(selectAllUsers);
+  const countIncrement = useSelector((state) => state.counter.count);
 
   const onMemoChanged = (e) => setMemo(e.target.value);
   const onUserChanged = (e) => setUserId(e.target.value);
@@ -40,6 +42,7 @@ export const AddMemo = () => {
     if (memo) {
       dispatch(memoAdd(memo, userId));
       setMemo("");
+      dispatch(increment());
     }
   };
 
@@ -128,7 +131,7 @@ export const AddMemo = () => {
         align={"center"}
         gutterBottom
       >
-        Hai 2 promemoria
+        Hai {countIncrement} promemoria
       </Typography>
     </Container>
   );

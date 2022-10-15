@@ -17,10 +17,10 @@ import { selectAllMemos } from "./app/features/memoString/memoSlice";
 
 const MemosList = () => {
   //Redux render posts
+  // const memos = useSelector(selectAllMemos);
   const memos = useSelector(selectAllMemos);
 
-  //ordina array in base alla data di creazione -> creare nuovo array di oggetti -> invertire ordine date
-  //scambiare memos con orderMemo -> effettuare  map
+  //ordina array in base alla data di creazione
   const orderMemos = memos.slice().sort((a, b) => b.date.localeCompare(a.date));
 
   const renderMemos = orderMemos.map((memo) => (
@@ -46,7 +46,7 @@ const MemosList = () => {
         <MemoUser userId={memo.userId} />
       </CardContent>
       <ReactionButtons memo={memo} />
-      <ModifyButton memo={memo} memos={memos} />
+      <ModifyButton memo={memo} />
     </Card>
   ));
 

@@ -1,16 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 import { sub } from "date-fns";
 
-const initialState = [
-  {
-    id: "",
-    memo: "",
-    date: sub(new Date(), { minutes: 10 }).toISOString(),
-    reactions: { toDo: 0, workInProgres: 0 },
-    // memoList: [],
-  },
-];
+const initialState = {
+  memoTot: [],
+  status: "idle",
+  error: null,
+};
 
 export const memoStringSlice = createSlice({
   name: "memos",
@@ -18,7 +13,7 @@ export const memoStringSlice = createSlice({
   reducers: {
     memoAdd: {
       reducer(state, action) {
-        state.push(action.payload);
+        state.memoTot.push(action.payload);
       },
       prepare(memo, userId) {
         return {
@@ -32,22 +27,22 @@ export const memoStringSlice = createSlice({
         };
       },
     },
+
     reactionAdd(state, action) {
       const { memoId, reaction } = action.payload;
-      const memoTarget = state.find((memo) => memo.id === memoId);
+      const memoTarget = state.memoTot.find((memo) => memo.id === memoId);
       if (memoTarget) {
         memoTarget.reactions[reaction]++;
       }
     },
     removeMemo: (state, action) => {
-      const { memoId, memolist } = action.payload;
-      state.memolist = memolist.filter((memo) => memo.id !== memoId);
-      // state = memolist.filter((memo) => memo.id !== memoId);
+      const { memoId } = action.payload;
+      state.memoTot = state.memoTot.filter((memo) => memo.id !== memoId);
     },
   },
 });
 
-export const selectAllMemos = (state) => state.memos;
+export const selectAllMemos = (state) => state.memos.memoTot;
 
 export const { memoAdd, reactionAdd, removeMemo } = memoStringSlice.actions;
 export default memoStringSlice.reducer;
